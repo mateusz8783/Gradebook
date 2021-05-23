@@ -142,3 +142,13 @@ normal_dist = scipy.stats.norm.pdf(x, loc=final_mean, scale=final_std)
 plt.plot(x, normal_dist, label="Normal Distribution", linewidth=4)
 plt.legend()
 plt.show()
+
+basic_summary_2 = final_data[["First Name"]].copy()
+basic_summary_2 = basic_summary_2.join(final_data["Last Name"])
+basic_summary_2 = basic_summary_2.join(final_data["Final Grade"])
+print(basic_summary_2)
+
+basic_summary = final_data[["First Name", "Last Name", "Final Grade"]].copy()
+basic_summary.sort_values(by=["Final Grade"]).to_csv(path_or_buf= DATA_FOLDER / "basic_summary.csv")
+basic_summary.sort_values(by=["First Name"]).to_csv(path_or_buf= DATA_FOLDER / "basic_summary_sorted_first_name.csv")
+basic_summary.sort_values(by=["Last Name"]).to_csv(path_or_buf= DATA_FOLDER / "basic_summary_sorted_last_name.csv")
