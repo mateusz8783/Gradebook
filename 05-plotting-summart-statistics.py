@@ -118,11 +118,12 @@ final_data["Final Score"] = (final_data[weightings.index] * weightings).sum(
 final_data["Ceiling Score"] = np.ceil(final_data["Final Score"] * 100)
 
 grades = {
-    90: "A",
-    80: "B",
-    70: "C",
-    60: "D",
-    0: "F",
+    90: "6",
+    80: "5",
+    70: "4",
+    60: "3",
+    50: "2",
+    0: "1",
 }
 
 
