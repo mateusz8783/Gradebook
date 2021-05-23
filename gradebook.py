@@ -146,7 +146,6 @@ plt.show()
 basic_summary_2 = final_data[["First Name"]].copy()
 basic_summary_2 = basic_summary_2.join(final_data["Last Name"])
 basic_summary_2 = basic_summary_2.join(final_data["Final Grade"])
-print(basic_summary_2)
 
 basic_summary = final_data[["First Name", "Last Name", "Final Grade"]].copy()
 basic_summary.sort_values(by=["Final Grade"]).to_csv(path_or_buf= DATA_FOLDER / "basic_summary.csv")
