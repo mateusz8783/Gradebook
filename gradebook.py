@@ -1,13 +1,3 @@
-"""Calculate student grades by combining data from many sources.
-
-Using Pandas, this script combines data from the:
-
-* Roster
-* Homework & Exam grades
-* Quiz grades
-
-to calculate final grades for a class.
-"""
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -16,10 +6,6 @@ import scipy.stats
 
 HERE = Path(__file__).parent
 DATA_FOLDER = HERE / "data"
-
-# ----------------------
-# 01 - LOADING THE DATA
-# ----------------------
 
 roster = pd.read_csv(
     DATA_FOLDER / "roster.csv",
@@ -46,10 +32,6 @@ for file_path in DATA_FOLDER.glob("quiz_*_grades.csv"):
     ).rename(columns={"Grade": quiz_name})
     quiz_grades = pd.concat([quiz_grades, quiz], axis=1)
 
-# ------------------------
-# 02 - MERGING DATAFRAMES
-# ------------------------
-
 final_data = pd.merge(
     roster,
     hw_exam_grades,
@@ -60,10 +42,6 @@ final_data = pd.merge(
     final_data, quiz_grades, left_on="Email Address", right_index=True
 )
 final_data = final_data.fillna(0)
-
-# ------------------------
-# 03 - CALCULATING GRADES
-# ------------------------
 
 n_exams = 3
 for n in range(1, n_exams + 1):
@@ -139,10 +117,6 @@ final_data["Final Grade"] = pd.Categorical(
     letter_grades, categories=grades.values(), ordered=True
 )
 
-# -----------------------
-# 04 - GROUPING THE DATA
-# -----------------------
-
 for section, table in final_data.groupby("Section"):
     section_file = DATA_FOLDER / f"Section {section} Grades.csv"
     num_students = table.shape[0]
@@ -151,10 +125,6 @@ for section, table in final_data.groupby("Section"):
         f"file {section_file}."
     )
     table.sort_values(by=["Last Name", "First Name"]).to_csv(section_file)
-
-# ---------------------------------
-# 05 - PLOTTING SUMMARY STATISTICS
-# ---------------------------------
 
 grade_counts = final_data["Final Grade"].value_counts().sort_index()
 grade_counts.plot.bar()
